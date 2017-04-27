@@ -126,7 +126,7 @@ def getircupd():
         checkircconn()
         line = ircconn.parse(block=False)
         if line and line["cmd"] == "PRIVMSG":
-            if line["dest"] != CFG['ircnick'] and not re.match(CFG['ircignore'], line["nick"]):
+            if line["dest"] == CFG['ircnick'] and not re.match(CFG['ircignore'], line["nick"]):
                 updateid = -int(time.time())
                 msg = {
                     'message_id': updateid,
@@ -316,10 +316,12 @@ def classify(msg):
         if text[0] in "/'" or ('@' + CFG['botname']) in text:
             return 0
         elif 'first_name' in chat:
+
             return 0
         else:
             reply = msg.get('reply_to_message')
             if reply and reply['from']['id'] == CFG['botid']:
+
                 return 0
 
     # If not enabled, there won't be this kind of msg
